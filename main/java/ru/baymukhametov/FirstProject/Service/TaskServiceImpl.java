@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 import ru.baymukhametov.FirstProject.Entity.MyTask;
 import ru.baymukhametov.FirstProject.Repository.TaskRepository;
@@ -16,7 +17,7 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
-    private LocalDateTime createdAt;
+    private LocalDateTime dueDate;
     private static List<String> allowedSortFields = Arrays.asList("id", "bla");
 
     public static boolean isValidSortBy(String sortBy) {
@@ -27,9 +28,17 @@ public class TaskServiceImpl implements TaskService {
         this.taskRepository = taskRepository;
     }
 
+    public List<Task> getTasksByCompleted(boolean completed) {
+        return taskRepository.findByCompleted(completed);
+    }
+
+    public Page<Task> getTasksByCompleted(boolean completed, Pageable pageable) {
+        return taskRepository.findByCompleted(completed, pageable);
+    }
+
     @Override
     public MyTask createTask(MyTask task) {
-        createdAt = LocalDateTime.now();
+        dueDate = LocalDateTime.now();
         return taskRepository.save(task);
     }
 
