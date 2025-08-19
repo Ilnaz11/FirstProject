@@ -17,7 +17,6 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
-    private LocalDateTime dueDate;
     private static List<String> allowedSortFields = Arrays.asList("id", "bla");
 
     public static boolean isValidSortBy(String sortBy) {
@@ -38,7 +37,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public MyTask createTask(MyTask task) {
-        dueDate = LocalDateTime.now();
         return taskRepository.save(task);
     }
 
