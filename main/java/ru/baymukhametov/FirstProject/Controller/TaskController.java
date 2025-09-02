@@ -1,13 +1,15 @@
 package ru.baymukhametov.FirstProject.Controller;
 
+
 import org.springframework.web.bind.annotation.*;
 import ru.baymukhametov.FirstProject.Entity.MyTask;
-import ru.baymukhametov.FirstProject.Service.TaskService;
+import ru.baymukhametov.FirstProject.service.TaskService;
 
-import java.util.List;
+
+import java.util.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -16,9 +18,9 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/")
-    public MyTask createTask(@RequestBody MyTask task) {
-        return taskService.createTask(task);
+    @PostMapping
+    public MyTask createTask(@RequestBody  MyTask myTask) {
+        return taskService.createTask(myTask);
     }
 
     @GetMapping
@@ -30,10 +32,10 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
     }
-
-    @PutMapping("/{id}/t")
-    public MyTask toggleComplete(@PathVariable Long id) {
+    @PutMapping("{/id}/toggle")
+    public MyTask toggleCompleted(@PathVariable Long id) {
         return taskService.toggleCompleted(id);
     }
+
 
 }

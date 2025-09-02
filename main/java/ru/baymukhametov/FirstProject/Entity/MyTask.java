@@ -7,8 +7,6 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -22,9 +20,6 @@ public class MyTask {
     private Long id;
     private LocalDateTime dueDate;
     private String description;
-    @Setter
     private boolean completed;
-
-
 
 }

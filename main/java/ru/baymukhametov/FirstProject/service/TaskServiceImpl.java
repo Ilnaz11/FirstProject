@@ -1,37 +1,32 @@
-package ru.baymukhametov.FirstProject.Service;
+package ru.baymukhametov.FirstProject.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.config.Task;
-import org.springframework.stereotype.Service;
 import ru.baymukhametov.FirstProject.Entity.MyTask;
 import ru.baymukhametov.FirstProject.Repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
-    private static List<String> allowedSortFields = Arrays.asList("id", "bla");
+    private static final List<String> ALLOWED_SORT_FIELDS = Arrays.asList("id", "bla");
 
     public static boolean isValidSortBy(String sortBy) {
-        return allowedSortFields.contains(sortBy);
+        return ALLOWED_SORT_FIELDS.contains(sortBy);
     }
 
-    public TaskServiceImpl(TaskRepository taskRepository)  {
-        this.taskRepository = taskRepository;
-    }
-
-    public List<Task> getTasksByCompleted(boolean completed) {
+    public List<MyTask> getTasksByCompleted(boolean completed) {
         return taskRepository.findByCompleted(completed);
     }
 
-    public Page<Task> getTasksByCompleted(boolean completed, Pageable pageable) {
+    public Page<MyTask> getTasksByCompleted(boolean completed, org.springframework.data.domain.Pageable pageable) {
         return taskRepository.findByCompleted(completed, pageable);
     }
 
@@ -49,6 +44,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
+
     @Override
     public MyTask toggleCompleted(Long taskId) {
         MyTask task = taskRepository.findById(taskId)
@@ -60,7 +56,6 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Page<MyTask> getSortedTasks(int page, int size, String sortBy, String sortDirection) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return taskRepository.findAll(pageable);
+        return taskRepository.findAll(PageRequest.of(page, size, sort));
     }
 }
