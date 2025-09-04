@@ -32,7 +32,7 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
     }
-    @PutMapping("{/id}/toggle")
+    @PutMapping("/{id}/toggle")
     public MyTask toggleCompleted(@PathVariable Long id) {
         return taskService.toggleCompleted(id);
     }
