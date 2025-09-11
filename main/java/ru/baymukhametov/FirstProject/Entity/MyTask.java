@@ -1,9 +1,6 @@
 package ru.baymukhametov.FirstProject.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +11,6 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 public class MyTask {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +18,8 @@ public class MyTask {
     private String description;
     private boolean completed;
 
+    @Enumerated(EnumType.STRING)
+    private MyPriority priority;
+
 }
+//Проверь, что при создании задачи можно указать приоритет (через JSON в Postman/Insomnia).
