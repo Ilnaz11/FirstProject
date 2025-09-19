@@ -1,5 +1,7 @@
 package ru.baymukhametov.FirstProject.service;
 
+
+import ru.baymukhametov.FirstProject.Entity.MyPriority;
 import ru.baymukhametov.FirstProject.Entity.MyTask;
 import ru.baymukhametov.FirstProject.Repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class TaskServiceImpl implements TaskService {
     public static boolean isValidSortBy(String sortBy) {
         return ALLOWED_SORT_FIELDS.contains(sortBy);
     }
+
 
     public List<MyTask> getTasksByCompleted(boolean completed) {
         return taskRepository.findByCompleted(completed);
@@ -38,6 +42,22 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<MyTask> getAllTasks() {
         return taskRepository.findAll();
+    }
+
+    @Override
+    public MyTask updateTask(Long id, String description, LocalDateTime dueDate, MyPriority priority) {
+        MyTask task = taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+        if (description != null) {
+            task.setDescription(description);
+        }
+        if (dueDate != null) {
+            task.setDueDate(dueDate);
+        }
+        if (priority != null) {
+            task.setPriority(priority);
+        }
+        return taskRepository.save(task);
     }
 
     @Override

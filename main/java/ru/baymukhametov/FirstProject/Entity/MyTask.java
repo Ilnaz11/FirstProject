@@ -22,4 +22,3 @@ public class MyTask {
     private MyPriority priority;
 
 }
-//Проверь, что при создании задачи можно указать приоритет (через JSON в Postman/Insomnia).
