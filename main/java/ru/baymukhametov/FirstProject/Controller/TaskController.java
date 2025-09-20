@@ -36,8 +36,11 @@ public class TaskController {
         return taskService.getTasksByCompleted(completed, pageable);
 
     }
-    //Сделай эндпоинт /tasks/completed — возвращает только выполненные задачи.
-    //Сделай эндпоинт /tasks/incomplete — возвращает только невыполненные задачи.
+    @GetMapping("/tasks/overdue")
+    public List<MyTask> getOverDueTasks (LocalDateTime now) {
+        return taskService.getOverDueTasks(now);
+    }
+
     @PutMapping("/tasks/{id}")
     public MyTask updateTask(Long id, String description, LocalDateTime dueDate, MyPriority priority) {
         return taskService.updateTask(id, description, dueDate, priority);

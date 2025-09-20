@@ -25,6 +25,10 @@ public class TaskServiceImpl implements TaskService {
         return ALLOWED_SORT_FIELDS.contains(sortBy);
     }
 
+    public List<MyTask> getOverDueTasks(LocalDateTime now) {
+        return taskRepository.findByDueDateBeforeAndCompletedFalse(now);
+    }
+
 
     public List<MyTask> getTasksByCompleted(boolean completed) {
         return taskRepository.findByCompleted(completed);

@@ -18,4 +18,5 @@ public interface TaskService {
     MyTask updateTask(Long id, String description, LocalDateTime dueDate, MyPriority priority);
     List<MyTask> getTasksByCompleted(boolean completed);
     Page<MyTask> getTasksByCompleted(boolean completed, Pageable pageable);
+    List<MyTask> getOverDueTasks(LocalDateTime now);
 }
