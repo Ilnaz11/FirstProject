@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<MyTask, Long> {
-    List<MyTask> findByCompleted(boolean completed);
-    Page<MyTask> findByCompleted(boolean completed, Pageable pageable);
+    List<MyTask> findByCompletedTrue();
+    Page<MyTask> findByCompletedFalse(Pageable pageable);
     List<MyTask> findByDueDateBeforeAndCompletedFalse(LocalDateTime now);
 }

@@ -30,12 +30,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
-    public List<MyTask> getTasksByCompleted(boolean completed) {
-        return taskRepository.findByCompleted(completed);
+    public List<MyTask> getTasksByCompletedTrue() {
+        return taskRepository.findByCompletedTrue();
     }
 
-    public Page<MyTask> getTasksByCompleted(boolean completed, org.springframework.data.domain.Pageable pageable) {
-        return taskRepository.findByCompleted(completed, pageable);
+    public Page<MyTask> getTasksByCompletedFalse(org.springframework.data.domain.Pageable pageable) {
+        return taskRepository.findByCompletedFalse(pageable);
     }
 
     @Override

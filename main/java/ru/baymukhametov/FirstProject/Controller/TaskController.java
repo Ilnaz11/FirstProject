@@ -20,24 +20,23 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
-
     @PostMapping
     public MyTask createTask(@RequestBody  MyTask myTask) {
         return taskService.createTask(myTask);
     }
 
     @GetMapping("/tasks/completed")
-    public List<MyTask> getTasksByCompleted(boolean completed) {
-        return taskService.getTasksByCompleted(completed);
+    public List<MyTask> getTasksByCompleted() {
+        return taskService.getTasksByCompletedTrue();
     }
 
-    @GetMapping("/tasks/incompleted")
-    public Page<MyTask> getTasksByCompleted(boolean completed, org.springframework.data.domain.Pageable pageable) {
-        return taskService.getTasksByCompleted(completed, pageable);
+    @GetMapping("/tasks/incomplete")
+    public Page<MyTask> getTasksByCompleted(org.springframework.data.domain.Pageable pageable) {
+        return taskService.getTasksByCompletedFalse(pageable);
 
     }
     @GetMapping("/tasks/overdue")
-    public List<MyTask> getOverDueTasks (LocalDateTime now) {
+    public List<MyTask> getOverDueTasks(LocalDateTime now) {
         return taskService.getOverDueTasks(now);
     }
 
@@ -59,6 +58,5 @@ public class TaskController {
     public MyTask toggleCompleted(@PathVariable Long id) {
         return taskService.toggleCompleted(id);
     }
-
 
 }
