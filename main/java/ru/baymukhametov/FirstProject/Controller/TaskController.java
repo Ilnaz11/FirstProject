@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.baymukhametov.FirstProject.Entity.MyPriority;
 import ru.baymukhametov.FirstProject.Entity.MyTask;
+import ru.baymukhametov.FirstProject.dto.StatsTasksDto;
 import ru.baymukhametov.FirstProject.service.TaskService;
 
 
@@ -20,24 +21,28 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
-
     @PostMapping
     public MyTask createTask(@RequestBody  MyTask myTask) {
         return taskService.createTask(myTask);
     }
 
-    @GetMapping("/tasks/completed")
-    public List<MyTask> getTasksByCompleted(boolean completed) {
-        return taskService.getTasksByCompleted(completed);
+    @GetMapping("/tasks/stats")
+    public StatsTasksDto getStatistics() {
+        return taskService.getStatistics();
     }
 
-    @GetMapping("/tasks/incompleted")
-    public Page<MyTask> getTasksByCompleted(boolean completed, org.springframework.data.domain.Pageable pageable) {
-        return taskService.getTasksByCompleted(completed, pageable);
+    @GetMapping("/tasks/completed")
+    public List<MyTask> getTasksByCompleted() {
+        return taskService.getTasksByCompletedTrue();
+    }
+
+    @GetMapping("/tasks/incomplete")
+    public Page<MyTask> getTasksByCompleted(org.springframework.data.domain.Pageable pageable) {
+        return taskService.getTasksByCompletedFalse(pageable);
 
     }
     @GetMapping("/tasks/overdue")
-    public List<MyTask> getOverDueTasks (LocalDateTime now) {
+    public MyTask getOverDueTasks(LocalDateTime now) {
         return taskService.getOverDueTasks(now);
     }
 
@@ -59,6 +64,5 @@ public class TaskController {
     public MyTask toggleCompleted(@PathVariable Long id) {
         return taskService.toggleCompleted(id);
     }
-
 
 }
