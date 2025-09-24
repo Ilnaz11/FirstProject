@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.baymukhametov.FirstProject.Entity.MyPriority;
 import ru.baymukhametov.FirstProject.Entity.MyTask;
+import ru.baymukhametov.FirstProject.dto.StatsTasksDto;
 import ru.baymukhametov.FirstProject.service.TaskService;
 
 
@@ -25,6 +26,11 @@ public class TaskController {
         return taskService.createTask(myTask);
     }
 
+    @GetMapping("/tasks/stats")
+    public StatsTasksDto getStatistics() {
+        return taskService.getStatistics();
+    }
+
     @GetMapping("/tasks/completed")
     public List<MyTask> getTasksByCompleted() {
         return taskService.getTasksByCompletedTrue();
@@ -36,7 +42,7 @@ public class TaskController {
 
     }
     @GetMapping("/tasks/overdue")
-    public List<MyTask> getOverDueTasks(LocalDateTime now) {
+    public MyTask getOverDueTasks(LocalDateTime now) {
         return taskService.getOverDueTasks(now);
     }
 

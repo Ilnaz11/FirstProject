@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.baymukhametov.FirstProject.dto.StatsTasksDto;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -24,8 +25,19 @@ public class TaskServiceImpl implements TaskService {
     public static boolean isValidSortBy(String sortBy) {
         return ALLOWED_SORT_FIELDS.contains(sortBy);
     }
+    public StatsTasksDto getStatistics() {
+        List<MyTask> task = taskRepository.findAll();
 
-    public List<MyTask> getOverDueTasks(LocalDateTime now) {
+        long totalTasks = task.size();
+        long completedTasks = task.stream().filter(MyTask::isCompleted).count();
+        long incompleteTasks = totalTasks - completedTasks;
+
+        long overDueTasks = taskRepository.countByDueDateBeforeAndCompletedFalse(LocalDateTime.now());
+
+        return new StatsTasksDto(totalTasks, completedTasks, incompleteTasks, overDueTasks);
+    }
+
+    public MyTask getOverDueTasks(LocalDateTime now) {
         return taskRepository.findByDueDateBeforeAndCompletedFalse(now);
     }
 
